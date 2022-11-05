@@ -39,6 +39,10 @@ import '@mdi/font/css/materialdesignicons.css'; // Ensure you are using css-load
 import 'vue-toast-notification/dist/theme-sugar.css';
 import './assets/base.css';
 
+// bootstrap
+import './assets/bootstrap.scss'
+import * as bootstrap from 'bootstrap'; // Import all of Bootstrap's JS
+
 // http
 import { HttpLink } from "apollo-link-http";
 import fetch from 'cross-fetch'
