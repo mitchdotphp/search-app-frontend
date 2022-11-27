@@ -105,25 +105,24 @@
         this.breadcrumbs.push({
           disabled: false,
           text: this.$t('home.title'),
-          to: { name: 'home_redirect' },
+          to: {
+            path: `/home`,
+          }
         });
         if (this.storeData.search.q) {
           this.breadcrumbs.push({
             disabled: false,
-            text: this.$t('home.your_search_for') + this.storeData.search.q,
-            to: { name: 'home' },
+            text: this.storeData.search.q,
+            to: { path: `/home` },
           });
-        }
-        if (this.currentFolder.parentFolder && this.currentFolder.parentSubfolder) {
+        } else if (this.currentFolder.parentFolder && this.currentFolder.parentSubfolder) {
           if (this.currentFolder.parentFolder != 'N/A') {
             this.breadcrumbs.push({
               disabled: false,
               text: this.currentFolder.parentFolder,
               to: {
-                name: 'home_folder',
-                path: '/home/' + this.currentFolder.parentFolder,
-                params: { folder: this.currentFolder.parentFolder },
-              },
+                path: `/home/${this.currentFolder.parentFolder}`,
+              }
             });
           }
           if (this.currentFolder.parentSubfolder != 'N/A') {
@@ -131,10 +130,8 @@
               disabled: false,
               text: this.currentFolder.parentSubfolder,
               to: {
-                name: 'home_folder_subfolder',
-                path: '/home/' + this.currentFolder.parentFolder + '/' + this.currentFolder.parentSubfolder,
-                params: { folder: this.currentFolder.parentFolder, subfolder: this.currentFolder.parentSubfolder },
-              },
+                path: `/home/${this.currentFolder.parentFolder}/${this.currentFolder.parentSubfolder}`,
+              }
             });
           }
         } else if (this.currentFolder.parentFolder) {
@@ -143,10 +140,8 @@
               disabled: false,
               text: this.currentFolder.parentFolder,
               to: {
-                name: 'home_folder',
-                path: '/home/' + this.currentFolder.parentFolder,
-                params: { folder: this.currentFolder.parentFolder },
-              },
+                path: `/home/${this.currentFolder.parentFolder}`,
+              }
             });
           }
         }
@@ -154,8 +149,7 @@
           disabled: false,
           text: this.currentFolder.name,
           to: {
-            name: 'show',
-            path: '/' + this.currentFolder.dataUrl,
+            path: `/${this.currentFolder.dataUrl}`,
           },
         });
       },

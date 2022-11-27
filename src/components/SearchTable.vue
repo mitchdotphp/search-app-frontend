@@ -3,6 +3,15 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12">
+          <v-breadcrumbs :items="breadcrumbs">
+            <template v-slot:divider>
+              <v-icon>mdi-chevron-right</v-icon>
+            </template>
+          </v-breadcrumbs>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
           <v-text-field
             v-bind:label="$t('search.input_label')"
             class="pa-1 ma-1"
@@ -15,15 +24,6 @@
             @keydown.enter="handleSearchFromInput"
             v-model="searchQuery">
           </v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <v-breadcrumbs :items="breadcrumbs">
-            <template v-slot:divider>
-              <v-icon>mdi-chevron-right</v-icon>
-            </template>
-          </v-breadcrumbs>
         </v-col>
       </v-row>
       <v-row v-if="hasResults">
@@ -124,6 +124,7 @@
     watch:{
       '$route.name': {
         handler: function(route_name) {
+          console.log(route_name);
           switch (route_name) {
             // Home
             case 'home': {
@@ -135,9 +136,16 @@
                 text: this.$t('home.title'),
                 to: {
                   name: 'home_redirect',
-                  params: this.defaultSearchParams,
+                  state: this.defaultSearchParams,
                 },
               });
+              if (this.storeData.search.q) {
+                this.breadcrumbs.push({
+                  disabled: false,
+                  text: this.storeData.search.q,
+                  to: { path: `/home` },
+                });
+              }
               break;
             }
 
@@ -151,7 +159,7 @@
                 text: this.$t('home.title'),
                 to: {
                   name: 'home_redirect',
-                  params: this.defaultSearchParams,
+                  state: this.defaultSearchParams,
                 },
               });
               break;
@@ -168,8 +176,12 @@
                 text: this.$t('home.title'),
                 to: {
                   name: 'home_redirect',
-                  params: this.defaultSearchParams,
+                  state: this.defaultSearchParams,
                 },
+              }, {
+                disabled: false,
+                text: this.storeData.search.q,
+                to: { path: `/home` },
               });
               break;
             }
@@ -185,27 +197,21 @@
                 text: this.$t('home.title'),
                 to: {
                   name: 'home_redirect',
-                  params: this.defaultSearchParams,
+                  state: this.defaultSearchParams,
                 },
               },
               {
                 disabled: false,
                 text: folder,
-                // href: '/home/' + folder,
                 to: {
-                  name: 'home_folder',
-                  path: '/home/' + folder,
-                  params: { folder: folder },
+                  path: `/home/${folder}`,
                 },
               },
               {
                 disabled: false,
                 text: subfolder,
-                // href: '/home/' + folder + '/' + subfolder,
                 to: {
-                  name: 'home_folder_subfolder',
-                  path: '/home/' + folder + '/' + subfolder,
-                  params: { folder: folder, subfolder: subfolder },
+                  path: `/home/${folder}/${subfolder}`,
                 },
               }];
               break;
@@ -221,16 +227,14 @@
                 text: this.$t('home.title'),
                 to: {
                   name: 'home_redirect',
-                  params: this.defaultSearchParams,
+                  state: this.defaultSearchParams,
                 },
               },
               {
                 disabled: false,
                 text: folder,
                 to: {
-                  name: 'home_folder',
-                  path: '/home/' + folder,
-                  params: { folder: folder },
+                  path: `/home/${folder}`,
                 },
               }];
               break;
@@ -265,26 +269,22 @@
             });
           }).catch((error) => {
             console.debug(error);
-            // this.$toast.warning('Unknown error');
+            this.$toast.warning('Unknown error');
           });
       },
       handleClick(event, dataUrl) {
         this.$router.push({
-          name: 'show',
-          path: '/' + dataUrl,
-          params: { id: dataUrl },
+          path: `/${dataUrl}`,
         });
       },
       handleClickClear(event) {
         this.$router.push({
-          name: 'home_redirect',
+          path: `/home_redirect`
         });
       },
       handleSearchFromInput(event) {
         this.$router.push({
-          name: 'home_search',
-          path: '/search/' + event.target.value,
-          params: { q: event.target.value },
+          path: `/search/${event.target.value}`
         });
       },
       handleSearchFromPagination(event) {
@@ -293,16 +293,12 @@
       },
       handleClickFolder(event, dataUrl, folder) {
         this.$router.push({
-          name: 'home_folder',
-          path: '/home/' + folder,
-          params: { folder: folder },
+          path: `/home/${folder}`
         });
       },
       handleClickSubfolder(event, dataUrl, folder, subfolder) {
         this.$router.push({
-          name: 'home_folder_subfolder',
-          path: '/home/' + folder + '/' + subfolder,
-          params: { folder: folder, subfolder: subfolder },
+          path: `/home/${folder}/${subfolder}`
         });
       },
     },
