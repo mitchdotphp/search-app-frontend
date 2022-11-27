@@ -19,6 +19,7 @@ const mutation = gql`
         name
         parentFolder
         parentSubfolder
+        year
       }
       loading
       errors

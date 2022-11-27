@@ -29,12 +29,23 @@
       <v-row v-if="hasResults">
         <v-col cols="12">
           <SearchResults>
-            <template #item="{ id, dataUrl, name, parentFolder, parentSubfolder }">
+            <template #item="{ id, dataUrl, name, parentFolder, parentSubfolder, year }">
               <v-list>
                 <v-list-item>
                   <!-- Folder / Subfolder -->
                   <v-list-item-title>
                     <v-icon>mdi-folder-open</v-icon>
+
+                    <v-chip
+                      color="grey darken-2"
+                      @click="handleClickYear($event, dataUrl, year)"
+                      class="ma-1"
+                      x-small
+                      outlined
+                      label>
+                      {{ year }}
+                    </v-chip>
+
                     <v-chip
                       color="blue darken-2"
                       @click="handleClickFolder($event, dataUrl, parentFolder)"
@@ -301,6 +312,11 @@
           path: `/home/${folder}/${subfolder}`,
         });
       },
+      handleClickYear(event, dataUrl, year) {
+        this.$router.push({
+          path: `/search/${year}`,
+        });
+      }
     },
   };
 </script>
