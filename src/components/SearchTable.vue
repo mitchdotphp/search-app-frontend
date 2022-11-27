@@ -124,7 +124,6 @@
     watch:{
       '$route.name': {
         handler: function(route_name) {
-          console.log(route_name);
           switch (route_name) {
             // Home
             case 'home': {
@@ -139,7 +138,7 @@
                   state: this.defaultSearchParams,
                 },
               });
-              if (this.storeData.search.q) {
+              if (this.storeData && this.storeData.search && this.storeData.search.q) {
                 this.breadcrumbs.push({
                   disabled: false,
                   text: this.storeData.search.q,
@@ -178,11 +177,14 @@
                   name: 'home_redirect',
                   state: this.defaultSearchParams,
                 },
-              }, {
-                disabled: false,
-                text: this.storeData.search.q,
-                to: { path: `/home` },
               });
+              if (this.storeData && this.storeData.search && this.storeData.search.q) {
+                this.breadcrumbs.push({
+                  disabled: false,
+                  text: this.storeData.search.q,
+                  to: { path: `/home` },
+                });
+              }
               break;
             }
 
@@ -262,13 +264,14 @@
         search(_.assign({ apollo: this.$apollo }, this.search))
           .then((response) => _get(response, 'data.search', {}))
           .then((response) => {
-            this.setStoreData({
-              'search': _.assign(this.search, {
-                response: response
-              })
-            });
+            if (response) {
+              this.setStoreData({
+                'search': _.assign(this.search, {
+                  response: response
+                })
+              });
+            }
           }).catch((error) => {
-            console.debug(error);
             this.$toast.warning('Unknown error');
           });
       },
