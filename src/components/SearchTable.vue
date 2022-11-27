@@ -32,13 +32,9 @@
             <template #item="{ id, dataUrl, name, parentFolder, parentSubfolder }">
               <v-list>
                 <v-list-item>
-                  <!-- Icon -->
-                  <v-list-item-title>
-                    <v-icon>mdi-folder-open</v-icon>
-                  </v-list-item-title>
-
                   <!-- Folder / Subfolder -->
                   <v-list-item-title>
+                    <v-icon>mdi-folder-open</v-icon>
                     <v-chip
                       color="blue darken-2"
                       @click="handleClickFolder($event, dataUrl, parentFolder)"
@@ -261,19 +257,19 @@
     methods: {
       ...mapMutations(['setStoreData']),
       handleSearch() {
-        search(_.assign({ apollo: this.$apollo }, this.search))
-          .then((response) => _get(response, 'data.search', {}))
-          .then((response) => {
-            if (response) {
-              this.setStoreData({
-                'search': _.assign(this.search, {
-                  response: response
-                })
-              });
-            }
-          }).catch((error) => {
-            this.$toast.warning('Unknown error');
-          });
+      search(_.assign({ apollo: this.$apollo }, this.search))
+        .then((response) => _get(response, 'data.search', {}))
+        .then((response) => {
+          if (response) {
+            this.setStoreData({
+              'search': _.assign(this.search, {
+                response: response,
+              })
+            });
+          }
+        }).catch((error) => {
+          this.$toast.warning('Unknown error');
+        });
       },
       handleClick(event, dataUrl) {
         this.$router.push({

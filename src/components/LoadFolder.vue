@@ -25,17 +25,14 @@
           </v-breadcrumbs>
         </v-col>
       </v-row>
-      <v-row class="ma-2 pa-2">
+      <v-row>
         <v-col cols="12">
           <FilesList>
             <template #item="{ id, itemId, dataUrl }">
               <v-list>
                 <v-list-item link @click="handleClick($event, itemId)">
-                  <v-list-item-action>
-                    <v-icon>mdi-console-line</v-icon>
-                  </v-list-item-action>
-
                   <v-list-item-title>
+                    <v-icon>mdi-console-line</v-icon>
                     {{ dataUrl }}
                   </v-list-item-title>
 
