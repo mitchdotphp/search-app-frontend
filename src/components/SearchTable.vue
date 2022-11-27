@@ -257,7 +257,7 @@
     methods: {
       ...mapMutations(['setStoreData']),
       handleSearch() {
-      search(_.assign({ apollo: this.$apollo }, this.search))
+      search(_.assign({ apollo: this.$apollo }, this.defaultSearchParams, this.search))
         .then((response) => _get(response, 'data.search', {}))
         .then((response) => {
           if (response) {
@@ -278,12 +278,13 @@
       },
       handleClickClear(event) {
         this.$router.push({
-          path: `/home_redirect`
+          name: `home_redirect`,
+          state: this.defaultSearchParams,
         });
       },
       handleSearchFromInput(event) {
         this.$router.push({
-          path: `/search/${event.target.value}`
+          path: `/search/${event.target.value}`,
         });
       },
       handleSearchFromPagination(event) {
@@ -292,12 +293,12 @@
       },
       handleClickFolder(event, dataUrl, folder) {
         this.$router.push({
-          path: `/home/${folder}`
+          path: `/home/${folder}`,
         });
       },
       handleClickSubfolder(event, dataUrl, folder, subfolder) {
         this.$router.push({
-          path: `/home/${folder}/${subfolder}`
+          path: `/home/${folder}/${subfolder}`,
         });
       },
     },
