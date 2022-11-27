@@ -79,8 +79,10 @@ a:hover {
 /* content */
 .v-list > .v-list-item .video {
   display: none;
-  height: 60px;
-  width: 250px;
+  height: 80px;
+  width: 270px;
+  margin-left: 20px;
+  padding: 10px;
 }
 
 .v-list-item-title {
@@ -103,4 +105,9 @@ iframe {
   display: block;
   height: 60px;
   width: 250px;
+}
+
+.v-btn {
+  letter-spacing: inherit !important;
+  line-height: inherit !important;
 }
