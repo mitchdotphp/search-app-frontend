@@ -19,8 +19,13 @@
             show-arrows-on-hover>
 
             <v-carousel-item
-              v-for="image in images"
-              :src="'https://link12.ddns.net:9090' + image.thumbUrl">
+              v-for="image in images">
+              <v-list-item :href="'https://link12.ddns.net:9090' + image.fileUrl" target="_blank">
+                <v-list-item-title>
+                  <v-img :src="'https://link12.ddns.net:9090' + image.thumbUrl"
+                    max-width="320" max-height="240" :style="{'margin': '20px auto'}"></v-img>
+                </v-list-item-title>
+              </v-list-item>
             </v-carousel-item>
           </v-carousel>
         </v-col>
